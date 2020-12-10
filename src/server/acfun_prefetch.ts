@@ -1,7 +1,7 @@
 import got from 'got';
 import { Cookie, CookieJar } from 'tough-cookie';
 import { promisify } from 'util';
-import { AcfunGiftListResponse, AcfunRoomInfoResponse } from '../types';
+import { AcfunGiftListResponse, AcfunRoomInfoResponse } from './types';
 
 export async function getAcfunRoomInfo(roomId: number) {
     if (!roomId) {

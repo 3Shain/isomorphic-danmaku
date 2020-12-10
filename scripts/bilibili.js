@@ -19,8 +19,11 @@ if (!program.roomid) {
 const id = parseInt(program.roomid);
 
 (async () => {
-    const roominfo = await getBilibiliRoomInfo(id);
-    console.log(roominfo.danmuInfo.token);
+    const roominfo = await getBilibiliRoomInfo(id,{
+        fetchGift:true,
+        fetchHistoryDanmaku: true
+    });
+    console.log(roominfo);
     for await (let msg of connectBilibiliLiveWs({
         roomId: id,
         host: `wss://${roominfo.danmuInfo.host_list[0].host}/sub`,
