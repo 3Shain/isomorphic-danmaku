@@ -28,7 +28,7 @@ npm install isomorphic-danmaku
 1. 预获取房间信息（bilibili可省略，acfun必须）
 ```ts
 // 以esmodule导入为例子，nodejs下也可以使用require()
-import { getAcfunRoomInfo, getBilibiliRommInfo } from 'isomorphic-danmaku/server'; //注意后面的/server
+import { getAcfunRoomInfo, getBilibiliRoomInfo } from 'isomorphic-danmaku/server'; //注意后面的/server
 
 // 获取对应房间信息
 
