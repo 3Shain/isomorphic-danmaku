@@ -1,5 +1,9 @@
 # 📖 isomorphic-danmaku
 
+[![version](https://img.shields.io/npm/v/isomorphic-danmaku.svg)](https://www.npmjs.com/package/isomorphic-danmaku)
+[![MIT License](https://img.shields.io/npm/l/isomorphic-danmaku.svg)](https://github.com/3Shain/isomorphic-danmaku/LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
+
 browser/nodejs 同构的直播平台弹幕获取
 
 **此package仍在活跃开发阶段，接口规范尚未确定，请注意后续可能产生的breaking change**
