@@ -87,7 +87,7 @@ Bilibili需要的参数信息
 
 ```json
 "browser": {
-    "crypto": false
+    "@peculiar/webcrypto": false
 }
 ```
 

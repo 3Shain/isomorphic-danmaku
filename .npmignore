@@ -1,3 +1,5 @@
 /node_modules
 /src
 test.js
+tsconfig.json
+tsconfig.server.json

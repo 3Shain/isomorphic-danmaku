@@ -57,7 +57,7 @@ export class StatefulAcfunClient {
     async init() {
         protobuf.util.Long = Long;
         protobuf.configure();
-        const bKey = global.Buffer != undefined ? Buffer.from(this.acSecurity, "base64") : Uint8Array.from(atob(this.acSecurity), c => c.charCodeAt(0));
+        const bKey = (globalThis as any).Buffer != undefined ? Buffer.from(this.acSecurity, "base64") : Uint8Array.from(atob(this.acSecurity), c => c.charCodeAt(0));
         this.serviceKey = await crypto.subtle.importKey("raw", bKey, { name: "AES-CBC" }, true, ["encrypt", "decrypt"]);
     }
 

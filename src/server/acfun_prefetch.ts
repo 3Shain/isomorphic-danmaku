@@ -1,6 +1,7 @@
 import got from 'got';
 import { Cookie, CookieJar } from 'tough-cookie';
 import { promisify } from 'util';
+import { AcfunGiftListResponse, AcfunRoomInfoResponse } from '../types';
 
 export async function getAcfunRoomInfo(roomId: number) {
     if (!roomId) {
@@ -26,76 +27,33 @@ export async function getAcfunRoomInfo(roomId: number) {
         responseType: 'json',
         body: `authorId=${roomId}`,
         cookieJar: jar
-    })).body as ACRoomInfo;
-    //TODO: roominfo可能不存在！
+    })).body as AcfunRoomInfoResponse;
+    if (roomInfo.result != 1) {
+        return {
+            closed: true,
+            acSecurity: loginResp.acSecurity,
+            userId: loginResp.userId,
+            serviceToken: loginResp["acfun.api.visitor_st"],
+        }
+    }
+    const giftInfo = (await got.post(`https://api.kuaishouzt.com/rest/zt/live/web/gift/list?subBiz=mainApp&kpn`+
+    `=ACFUN_APP&kpf=PC_WEB&userId=${loginResp.userId}&did=${did}&acfun.api.visitor_st=${loginResp["acfun.api.visitor_st"]}`, {
+        headers: {
+            "content-type": "application/x-www-form-urlencoded",
+            "referer": `https://live.acfun.cn/live/${roomId}`
+        },
+        responseType: 'json',
+        body: `visitorId=${loginResp.userId}&liveId=${roomInfo.data.liveId}`,
+        cookieJar: jar
+    })).body as AcfunGiftListResponse;
     return {
+        closed: false,
         acSecurity: loginResp.acSecurity,
         userId: loginResp.userId,
         serviceToken: loginResp["acfun.api.visitor_st"],
         tickets: roomInfo.data.availableTickets,
         enterRoomAttach: roomInfo.data.enterRoomAttach,
-        liveId: roomInfo.data.liveId
-        // giftInfo: 
+        liveId: roomInfo.data.liveId,
+        giftInfo: giftInfo.data
     }
-}
-
-type ACRoomInfo = {
-    result: number;
-    data: {
-        liveId: string;
-        availableTickets: string[];
-        enterRoomAttach: string;
-        videoPlayRes: string;
-        caption: string;
-        ticketRetryCount: number;
-        ticketRetryIntervalMs: number;
-        notices: { userId: number; userName: string; userGender: string; notice: string; }[];
-        config: {
-            giftSlotSize: number;
-        };
-        liveStartTime: number;
-        panoramic: boolean;
-    },
-    host: string;
-};
-
-type ACGiftList = {
-    result: number;
-    data: {
-        giftList: {
-            allowBatchSendSizeList: number[];
-            arLiveName: string;
-            canCombo: boolean;
-            canDraw: boolean;
-            description: string;
-            giftId: number;
-            giftName: string;
-            giftPrice: number;
-            magicFaceId: number;
-            payWalletType: number;
-            pngPicListt: {
-                cdn: string;
-                freeTraffic: boolean;
-                url: string;
-                urlPattern: string;
-            }[];
-            smallPngPicList: {
-                cdn: string;
-                freeTraffic: boolean;
-                url: string;
-                urlPattern: string;
-            }[];
-            webpPicList: {
-                cdn: string;
-                freeTraffic: boolean;
-                url: string;
-                urlPattern: string;
-            }[];
-            redpackPrice: number;
-        }[],
-        externalDisplayGiftId: number;
-        giftListHash: string;
-        externalDisplayGiftTipsDelayTime: number;
-    },
-    host: string;
 }
