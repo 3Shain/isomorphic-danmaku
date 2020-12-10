@@ -1,0 +1,34 @@
+{
+    "name": "isomorphic-danmaku",
+    "version": "0.0.5",
+    "source": "src/index.ts",
+    "main": "dist/common/index.js",
+    "module": "dist/esm/index.js",
+    "description": "isomorphic danmaku",
+    "license": "MIT",
+    "exports": {
+        ".": {
+            "require": "./dist/common/index.js",
+            "default": "./dist/esm/index.js"
+        }
+    },
+    "scripts": {
+        "build": "tsc && tsc -m es2020 --outDir dist/esm && tsc -p ./tsconfig.server.json"
+    },
+    "dependencies": {
+        "@peculiar/webcrypto": "^1.1.4",
+        "got": "^11.8.0",
+        "isomorphic-ws": "^4.0.1",
+        "pako": "^2.0.2",
+        "protobufjs": "^6.10.2",
+        "tough-cookie": "^4.0.0",
+        "ws": "^7.4.1"
+    },
+    "devDependencies": {
+        "@types/pako": "^1.0.1",
+        "@types/tough-cookie": "^4.0.0",
+        "@types/ws": "^7.4.0",
+        "commander": "^6.2.0",
+        "typescript": "^4.1.2"
+    }
+}
